@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Log;
 
 class ProductController extends Controller
 {
@@ -40,7 +42,7 @@ class ProductController extends Controller
     {
         try {
             $data = $request->all();
-            Product::create($data);
+            Product::create($data['_value']);
     
             return response()->json([
                 'success' => true,
@@ -62,7 +64,20 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        //
+        try {
+            $product = Product::find($product->id);
+            Log::debug($product);
+            return response()->json([
+                'success' => true,
+                'data' => $product,
+                'message' => 'Product'
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Error'
+            ]);
+        }
     }
 
     /**
@@ -76,14 +91,26 @@ class ProductController extends Controller
     {
         try {
             $data = $request->all();
+            $data = $data['_value'];
+            $dataUpdate = [
+                'name' => $data['name'],
+                'reference' => $data['reference'],
+                'category' => $data['category'],
+                'price' => $data['price'],
+                'weight' => $data['weight'],
+                'stock' => $data['stock'],
+                'updated_at' => Carbon::now()->format('Y-m-d')
+            ];
+            
             Product::where('id', $product->id)
-                ->update([$data]);
+                ->update($dataUpdate);
     
             return response()->json([
                 'success' => true,
-                'message' => 'Product created successful'
+                'message' => 'Product updated successful'
             ]);
         } catch (\Throwable $th) {
+            Log::debug($th);
             return response()->json([
                 'success' => false,
                 'message' => 'Error'
@@ -109,6 +136,7 @@ class ProductController extends Controller
                     'message' => 'Product deleted successful'
                 ]);
             } catch (\Throwable $th) {
+                Log::debug($th);
                 return response()->json([
                     'success' => false,
                     'message' => 'Error'
