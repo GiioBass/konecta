@@ -16,7 +16,7 @@
             <router-link class="nav-link" to="/product/create">Create Product</router-link>
           </li>
           <li class="nav-item">
-            <router-link class="nav-link" to="#">Store</router-link>
+            <router-link class="nav-link" to="/sell/create">Sell</router-link>
           </li>
 
         </ul>

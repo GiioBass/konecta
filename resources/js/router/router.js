@@ -2,21 +2,27 @@ import {createRouter, createWebHistory} from 'vue-router'
 import products from '@/views/Products/index.vue'
 import productsEdit from '@/views/Products/edit.vue'
 import productsCreate from '@/views/Products/create.vue'
+import sellCreate from '@/views/Sell/create.vue'
 const routes = [
     {
         path: '/',
-        component: products,
-        name: '/'
+        name: '/',
+        component: products
     },
     {
         path: '/product/edit/:id',
-        component: productsEdit,
-        name: '/product/edit'
+        name: '/product/edit',
+        component: productsEdit
     },
     {
         path: '/product/create',
-        component: productsCreate,
-        name: '/product/create'
+        name: '/product/create',
+        component: productsCreate
+    },
+    {
+        path: '/sell/create',
+        name: '/sell/create',
+        component: sellCreate
     }
 ]
 
