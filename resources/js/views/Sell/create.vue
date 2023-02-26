@@ -28,12 +28,13 @@
 
 
                     <div class=" m-4 d-grid gap-2 col-6 mx-auto">
-                        <button @click="addProductToPurchase">Add Product</button>
+                        <button type="button" @click="addProductToPurchase">Add Product</button>
                     </div>
                     <div class=" m-4 d-grid gap-2 col-6 mx-auto">
-                        <button @click="createPurchase">Create Purchase</button>
+                        <button type="button" @click="createPurchase">Create Purchase</button>
                     </div>
                 </form>
+                {{ purchaseProducts }}
                 <div>
                 </div>
             </div>
@@ -70,12 +71,14 @@ const createPurchase = async () => {
 
 const addProductToPurchase = () => {
     if (selectedProduct && quantity > 0) {
+        console.log(selectedProduct)
         const purchaseProduct = {
             productId: selectedProduct.id,
             name: selectedProduct.name,
             price: selectedProduct.price,
             quantity: quantity
         };
+        console.log(purchaseProduct)
         purchaseProducts.push(purchaseProduct);
         selectedProduct = null;
         quantity = 0;
@@ -123,7 +126,6 @@ const getDataProducts = async () => {
     try {
         const res = await axios.get('/api/product')
         products.value = res.data.data.data
-        console.log(res)
     } catch (error) {
 
     }
